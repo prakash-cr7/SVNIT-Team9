@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:app/UI/constans.dart';
+import 'package:app/UI/stock_detail.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StockTile extends StatelessWidget {
@@ -9,6 +11,10 @@ class StockTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        Navigator.push(
+            context, CupertinoPageRoute(builder: (_) => StockDetail()));
+      },
       dense: false,
       leading: CircleAvatar(
         child: Text(

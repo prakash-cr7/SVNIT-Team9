@@ -12,19 +12,18 @@ class SearchBox extends StatelessWidget {
       decoration: InputDecoration(
           fillColor: Colors.grey,
           hintText: 'Search',
-          focusColor: Colors.grey,
-          hoverColor: Colors.grey,
+          hoverColor: UiColors.primaryColor,
           contentPadding:
               EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black54, width: 1.0),
+            borderSide: BorderSide(color: UiColors.primaryColor, width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black54, width: 2.0),
+            borderSide: BorderSide(color: UiColors.primaryColor, width: 2.0),
             borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           suffixIcon: Icon(

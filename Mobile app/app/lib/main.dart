@@ -12,9 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Trade',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.deepPurple
-      ),
+      theme: ThemeData.dark().copyWith(primaryColor: Colors.deepPurple),
       home: HomePage(),
     );
   }
@@ -25,25 +23,36 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text('Trade'),
-        backgroundColor: Colors.black87,
-        centerTitle: true,
-        elevation: 2,
-      ),
-      body: ListView(
-        children: [
-          SearchBox(),
-          StockTile(),
-          StockTile(),
-          StockTile(),
-          StockTile(),
-          StockTile(),
-          StockTile(),
-          StockTile(),
-        ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          title: Text('Trade'),
+          backgroundColor: Colors.black87,
+          centerTitle: true,
+          elevation: 2,
+        ),
+        body: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: SearchBox(),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            StockTile(),
+            StockTile(),
+            StockTile(),
+            StockTile(),
+            StockTile(),
+            StockTile(),
+            StockTile(),
+          ],
+        ),
       ),
     );
   }

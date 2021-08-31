@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:app/UI/constans.dart';
 import 'package:app/UI/stock_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class StockTile extends StatelessWidget {
   final String ukey;
@@ -22,9 +24,16 @@ class StockTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
+      onTap: () async {
+        var res = await http.get(
+            Uri.parse('https://api-for-hackathon.herokuapp.com/ohlc/${ukey}'));
+        var data = jsonDecode(res.body);
         Navigator.push(
-            context, CupertinoPageRoute(builder: (_) => StockDetail()));
+            context,
+            CupertinoPageRoute(
+                builder: (_) => StockDetail(
+                      stockDetail: data,
+                    )));
       },
       dense: false,
       leading: CircleAvatar(
@@ -35,12 +44,12 @@ class StockTile extends StatelessWidget {
         backgroundColor: UiColors.avatarBgColor[Random().nextInt(6)],
       ),
       title: Text(
-        name,
+        '\$${ukey}',
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
         ukey,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12),
       ),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

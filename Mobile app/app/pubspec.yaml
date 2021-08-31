@@ -30,9 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   candlesticks: ^1.0.1
   syncfusion_flutter_charts: ^19.2.59
-  dio: ^4.0.0
   http: ^0.13.3
-  
 
 dev_dependencies:
   flutter_test:

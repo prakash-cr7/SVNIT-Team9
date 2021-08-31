@@ -6,31 +6,53 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class StockDetail extends StatefulWidget {
+  final stockDetail;
+
+  const StockDetail({Key? key, required this.stockDetail}) : super(key: key);
   @override
   _StockDetailState createState() => _StockDetailState();
 }
 
 class _StockDetailState extends State<StockDetail> {
   List<Candle> candles = [];
+  List<StockData> points = [];
   String _currentChart = 'L';
   String _selectedChip = '1D';
+  double change = 0;
+  double changeP = 0;
 
   void addCandles() {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < widget.stockDetail.length; i++) {
       Candle candle = new Candle(
           date: DateTime.now().subtract(Duration(days: i)),
-          high: Random().nextDouble(),
-          low: Random().nextDouble(),
-          open: Random().nextDouble(),
-          close: Random().nextDouble(),
-          volume: Random().nextDouble());
+          high: widget.stockDetail[i]['high'].toDouble(),
+          low: widget.stockDetail[i]['low'].toDouble(),
+          open: widget.stockDetail[i]['open'].toDouble(),
+          close: widget.stockDetail[i]['close'].toDouble(),
+          volume: widget.stockDetail[i]['volume'].toDouble());
       candles.add(candle);
+    }
+  }
+
+  void addPoints(int interval) {
+    points = [];
+    for (int i = widget.stockDetail.length - 1; i >= 0; i -= interval) {
+      StockData sd = new StockData(widget.stockDetail[i]['date'],
+          widget.stockDetail[i]['close'].toDouble());
+      points.add(sd);
     }
   }
 
   @override
   void initState() {
     addCandles();
+    addPoints(1);
+    change = (widget.stockDetail[widget.stockDetail.length - 1]['close']
+            .toDouble() -
+        widget.stockDetail[widget.stockDetail.length - 1]['open'].toDouble());
+    changeP = change *
+        100 /
+        widget.stockDetail[widget.stockDetail.length - 1]['open'].toDouble();
     super.initState();
   }
 
@@ -48,7 +70,7 @@ class _StockDetailState extends State<StockDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Apple inc price',
+                '\$${widget.stockDetail[0]['key']} price',
                 style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
@@ -60,7 +82,8 @@ class _StockDetailState extends State<StockDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('\$251',
+                  Text(
+                      '\$${widget.stockDetail[widget.stockDetail.length - 1]['close']}',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
@@ -112,9 +135,10 @@ class _StockDetailState extends State<StockDetail> {
                 height: 10,
               ),
               Text(
-                '+\$1.01 (1.01%)',
-                style:
-                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                '+\$${change.toStringAsFixed(2)} (${changeP.toStringAsFixed(2)}%)',
+                style: TextStyle(
+                    color: change > 0 ? Colors.green : Colors.red,
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 16,
@@ -126,23 +150,14 @@ class _StockDetailState extends State<StockDetail> {
                         candles: candles,
                         onIntervalChange: (data) async {},
                         interval: "1d")
-                    : SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        series: <LineSeries<StockData, String>>[
-                            LineSeries<StockData, String>(
-                                // Bind data source
-                                dataSource: <StockData>[
-                                  StockData('1', 35.0),
-                                  StockData('2', 28),
-                                  StockData('3', 34),
-                                  StockData('4', 32),
-                                  StockData('5', 40)
-                                ],
-                                xValueMapper: (StockData stock, _) =>
-                                    stock.time,
-                                yValueMapper: (StockData sales, _) =>
-                                    sales.price)
-                          ]),
+                    : SfCartesianChart(primaryXAxis: CategoryAxis(), series: <
+                        LineSeries<StockData, String>>[
+                        LineSeries<StockData, String>(
+                            // Bind data source
+                            dataSource: points,
+                            xValueMapper: (StockData stock, _) => stock.time,
+                            yValueMapper: (StockData sales, _) => sales.price)
+                      ]),
               ),
               SizedBox(
                 height: 10,
@@ -153,6 +168,7 @@ class _StockDetailState extends State<StockDetail> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
+                        addPoints(1);
                         _selectedChip = '1D';
                       });
                     },
@@ -165,6 +181,7 @@ class _StockDetailState extends State<StockDetail> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
+                        addPoints(7);
                         _selectedChip = '1W';
                       });
                     },
@@ -177,6 +194,7 @@ class _StockDetailState extends State<StockDetail> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
+                        addPoints(28);
                         _selectedChip = '1M';
                       });
                     },
@@ -189,6 +207,7 @@ class _StockDetailState extends State<StockDetail> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
+                        addPoints(1);
                         _selectedChip = 'ALL';
                       });
                     },
@@ -204,7 +223,7 @@ class _StockDetailState extends State<StockDetail> {
                 height: 16,
               ),
               Text(
-                'About Apple inc',
+                'About ${widget.stockDetail[0]['key']}',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

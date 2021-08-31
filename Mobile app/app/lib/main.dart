@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:app/UI/search_box.dart';
+import 'package:app/UI/search_page.dart';
 import 'package:app/UI/stock_tile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Trade',
+      title: 'Trades',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark()
           .copyWith(primaryColor: Colors.deepPurple, accentColor: Colors.black),
@@ -28,16 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> tiles = [
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: SearchBox(),
-    ),
-    SizedBox(
-      height: 10,
-    ),
-  ];
-
   Future getLatestData() async {
     var response = await http
         .get(Uri.parse('https://api-for-hackathon.herokuapp.com/ohlc-latest/'));
@@ -62,6 +53,34 @@ class _HomePageState extends State<HomePage> {
         body: FutureBuilder<dynamic>(
             future: getLatestData(),
             builder: (context, snapshot) {
+              List<Widget> tiles = [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchPage()));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[900],
+                            borderRadius: BorderRadius.circular(10)),
+                        height: 40,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 3, horizontal: 12),
+                          child: Row(
+                            children: [Icon(Icons.search), Text('Search')],
+                          ),
+                        ),
+                      )),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ];
               if (snapshot.hasData) {
                 var data = snapshot.data;
                 for (int i = 0; i < data.length; i++) {

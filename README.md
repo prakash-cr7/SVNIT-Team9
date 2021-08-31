@@ -13,7 +13,18 @@ Note : To explore the app, simply download the apk from release section and inst
 ## Video demo (Youtube)
 https://youtu.be/6h1M1l8jOtY
 
+## Screenshots
+![Screenshot_1630446203](https://user-images.githubusercontent.com/64666687/131580665-6f29a11e-bfb4-4c30-a4f9-e40529b50243.png)
+![Screenshot_1630446250](https://user-images.githubusercontent.com/64666687/131580808-d608e212-0db7-44fe-9c8b-3db7a7fdc2d9.png)
+![Screenshot_1630446238](https://user-images.githubusercontent.com/64666687/131580859-451a2ea3-158b-4942-9953-84fb8ca21e7a.png)
+![Screenshot_1630446255](https://user-images.githubusercontent.com/64666687/131580922-c8536278-511d-4a57-829f-0ecb2455a2fb.png)
+
+
 ## How to run the code
+
+### Written code directory
+root/Mobile app/app/lib/
+
 Note: To run and analyse the code, flutter must be installed in your system, if flutter is installed in your system follow Part 1 else follow Part 2.
 Part 1
 Step 1: Download or clone this repo by from github. 

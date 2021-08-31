@@ -10,6 +10,9 @@ Repository for OHLC Engine.
 Note : To explore the app, simply download the apk from release section and install on any android device.
 
 # Frontend (Android app)
+## Video demo (Youtube)
+https://youtu.be/6h1M1l8jOtY
+
 ## How to run the code
 Note: To run and analyse the code, flutter must be installed in your system, if flutter is installed in your system follow Part 1 else follow Part 2.
 Part 1

@@ -6,7 +6,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StockTile extends StatelessWidget {
-  const StockTile({Key? key}) : super(key: key);
+  final String ukey;
+  final String name;
+  final double price;
+  final double change;
+
+  const StockTile(
+      {Key? key,
+      required this.ukey,
+      required this.price,
+      required this.change,
+      this.name = 'Apple'})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +29,28 @@ class StockTile extends StatelessWidget {
       dense: false,
       leading: CircleAvatar(
         child: Text(
-          'A',
+          ukey[0],
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: UiColors.avatarBgColor[Random().nextInt(6)],
       ),
       title: Text(
-        'Apple',
+        name,
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-        'APPL',
+        ukey,
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
       ),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text("\$153"),
+          Text("\$${price.toString()}"),
           Text(
-            '+2.31%',
-            style: TextStyle(color: Colors.green),
+            change > 0
+                ? '+${change.toStringAsFixed(2)}%'
+                : '-${change.toStringAsFixed(2)}%',
+            style: TextStyle(color: change > 0 ? Colors.green : Colors.red),
           )
         ],
       ),
